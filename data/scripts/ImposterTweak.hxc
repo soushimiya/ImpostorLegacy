@@ -1,0 +1,10 @@
+package impostor;
+
+// custom tweaking stuff
+class ImposterTweak extends Script
+{
+    function create()
+    {
+        playstate.camOffsetAmount = 15;
+    }
+}

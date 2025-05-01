@@ -38,7 +38,6 @@ class ImpostorHUD extends Script
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
         scoreTxt.cameras = [playstate.camHUD];
-        scoreTxt.text = "SCORE: 00000";
 
         // oh i can actually do this so cool
         playstate.remove(playstate.scoreTxt);
@@ -52,9 +51,9 @@ class ImpostorHUD extends Script
 
             scoreTxt.text = "Score: " + playstate.songStats.score;
 
-		    if(Config.showMisses >= 1)
+		    if(Config.showMisses == 1)
 			    scoreTxt.text += " | Misses: " + playstate.songStats.missCount;
-		    if(Config.showMisses >= 2)
+		    if(Config.showMisses == 2)
 			    scoreTxt.text += " | Combo Breaks: " + playstate.songStats.comboBreakCount;
 
 
@@ -74,9 +73,11 @@ class ImpostorHUD extends Script
 
 		    if(Config.showAccuracy)
             {
-                scoreTxt.text += " | Rating: " + ratingName;
+                scoreTxt.text += " | Accuracy: ";
                 if (total > 0)
-                    scoreTxt.text += " (" + playstate.truncateFloat(playstate.songStats.accuracy, 2) + "%)";
+                    scoreTxt.text += playstate.truncateFloat(playstate.songStats.accuracy, 2) + "% " + "[" + ratingName + "]";
+                else
+                    scoreTxt.text += "?";
             }
         }
 

@@ -1,0 +1,23 @@
+class Impostor extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		info.name = "impostor";
+		info.spritePath = "week1/impostor";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "impostor";
+		info.healthColor = 0xffbb2d2d;
+		info.focusOffset.set(150, 130);
+		addExtraData("reposition", [0, 100]);
+
+		addByPrefix('idle', offset(80, -270), "impostor idle", 24, loop(false));
+		addByPrefix('singUP', offset(-16, -234), "impostor up", 24, loop(false));
+		addByPrefix('singDOWN', offset(40, -235), "impostor down", 24, loop(false));
+		addByPrefix('singLEFT', offset(248, -285), 'imposter left', 24, loop(false)); // whatt
+		addByPrefix('singRIGHT', offset(-73, -294), 'impostor right', 24, loop(false));
+
+	}
+}

@@ -1,0 +1,50 @@
+{
+    "path": "ui/notes/noteSplashes",
+    "randomRotation": false,
+    "limitedRotationAngles": false,
+    "alpha": 0.6,
+    "antialiasing": true,
+    "scale": 1,
+    "animations": {
+        "left": [{
+            "prefix": "note splash purple 1",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        },
+        {
+            "prefix": "note splash purple 2",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        }],
+        "down": [{
+            "prefix": "note splash blue 1",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        },
+        {
+            "prefix": "note splash blue 2",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        }],
+        "up": [{
+            "prefix": "note splash green 1",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        },
+        {
+            "prefix": "note splash green 2",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        }],
+        "right": [{
+            "prefix": "note splash red 1",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        },
+        {
+            "prefix": "note splash red 1",
+            "framerateRange": [22, 28],
+            "offset": [175, 175]
+        }]
+    }
+}
