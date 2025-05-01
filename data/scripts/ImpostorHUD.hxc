@@ -1,0 +1,138 @@
+package impostor;
+
+import flixel.FlxG;
+import extensions.flixel.FlxTextExt;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.ui.FlxBar;
+import flixel.FlxSprite;
+import flixel.util.FlxStringUtil;
+import flixel.math.FlxMath;
+
+// funny psych engine shit!
+class ImpostorHUD extends Script
+{
+    var fuckflxBar = {
+        songPercent: 0.3
+    };
+    var ratingStuff:Array<Dynamic> = [
+		['You Suck!', 0.2], //From 0% to 19%
+		['Shit', 0.4], //From 20% to 39%
+		['Bad', 0.5], //From 40% to 49%
+		['Bruh', 0.6], //From 50% to 59%
+		['Meh', 0.69], //From 60% to 68%
+		['Nice', 0.7], //69%
+		['Good', 0.8], //From 70% to 79%
+		['Great', 0.9], //From 80% to 89%
+		['Sick!', 1], //From 90% to 99%
+		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	];
+
+    var scoreTxt:FlxTextExt;
+    var scoreTxtTween:FlxTween;
+
+    function create()
+    {
+        scoreTxt = new FlxTextExt(0, playstate.healthBar.y + 40, FlxG.width, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr"), 20, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		scoreTxt.scrollFactor.set();
+		scoreTxt.borderSize = 1.25;
+        scoreTxt.cameras = [playstate.camHUD];
+        scoreTxt.text = "SCORE: 00000";
+
+        // oh i can actually do this so cool
+        playstate.remove(playstate.scoreTxt);
+        playstate.add(scoreTxt);
+        playstate.scoreTxt = scoreTxt;
+
+        playstate.updateScoreText = function()
+        {
+            var total:Float = (playstate.songStats.sickCount) + (playstate.songStats.goodCount) + (playstate.songStats.badCount) + (playstate.songStats.shitCount) + (playstate.songStats.missCount);
+            doScoreBop();
+
+            scoreTxt.text = "Score: " + playstate.songStats.score;
+
+		    if(Config.showMisses >= 1)
+			    scoreTxt.text += " | Misses: " + playstate.songStats.missCount;
+		    if(Config.showMisses >= 2)
+			    scoreTxt.text += " | Combo Breaks: " + playstate.songStats.comboBreakCount;
+
+
+            var ratingName = "?";
+            if (total > 0)
+            {
+               var ratingPercent = playstate.songStats.accuracy/100;
+               ratingName = ratingStuff[ratingStuff.length-1][0]; //Uses last string
+				if(ratingPercent < 1)
+					for (i in 0...ratingStuff.length-1)
+						if(ratingPercent < ratingStuff[i][1])
+						{
+							ratingName = ratingStuff[i][0];
+							break;
+						}
+            }
+
+		    if(Config.showAccuracy)
+            {
+                scoreTxt.text += " | Rating: " + ratingName;
+                if (total > 0)
+                    scoreTxt.text += " (" + playstate.truncateFloat(playstate.songStats.accuracy, 2) + "%)";
+            }
+        }
+
+        playstate.playerStrums.memberAdded.add(adjustStrumPos);
+        playstate.enemyStrums.memberAdded.add(adjustStrumPos);
+    }
+
+    function doScoreBop()
+    {
+        if(scoreTxtTween != null)
+			scoreTxtTween.cancel();
+
+        scoreTxt.scale.set(1.075, 1.075);
+		scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+			onComplete: function(twn:FlxTween) {
+				scoreTxtTween = null;
+			}
+		});
+    }
+
+    function adjustStrumPos(strum)
+    {
+        if(Config.downscroll){
+            strum.y = FlxG.height - 150;
+        }
+        else {
+            strum.y = 50;
+        }
+    }
+
+    var trackedDadColor:Float;
+    function update(elapsed:Float)
+    {
+        // optimize shit
+        if (trackedDadColor != dad.characterColor)
+        {
+            trackedDadColor = dad.characterColor;
+            scoreTxt.color = trackedDadColor;
+        }
+
+        var mult:Float = FlxMath.lerp(playstate.iconP1.defualtIconScale, playstate.iconP1.iconScale, Math.exp(-elapsed * 9 * playstate.songPlaybackSpeed));
+        playstate.iconP1.iconScale = mult;
+
+        var mult:Float = FlxMath.lerp(playstate.iconP2.defualtIconScale, playstate.iconP2.iconScale, Math.exp(-elapsed * 9 * playstate.songPlaybackSpeed));
+        playstate.iconP2.iconScale = mult;
+    }
+
+    function beat(curBeat:Int)
+    {
+        // unoptimized lmao
+        if (playstate.iconP1.tween != null)
+            playstate.iconP1.tween.cancel();
+        if (playstate.iconP2.tween != null)
+            playstate.iconP2.tween.cancel();
+
+        playstate.iconP1.iconScale = playstate.iconP1.defualtIconScale * 1.2;
+        playstate.iconP2.iconScale = playstate.iconP2.defualtIconScale * 1.2;
+    }
+}
