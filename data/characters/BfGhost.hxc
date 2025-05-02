@@ -10,9 +10,8 @@ class BfGhost extends CharacterInfoBase
 		
 		info.iconName = "bf";
 		info.facesLeft = true;
-		info.focusOffset.set(250, -140);
+		info.focusOffset.set(300, -140);
 		info.healthColor = 0xff31B0D1;
-		addExtraData("reposition", [100, -250]);
 
 		addByPrefix('idle', offset(), 'BF idle dance', 24, loop(false));
 		addByPrefix('singUP', offset(-29, 27), 'BF NOTE UP0', 24, loop(false));

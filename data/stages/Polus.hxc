@@ -54,21 +54,16 @@ class Polus extends BaseStage
 		speaker.active = true;
 		speaker.antialiasing = true;
 		if (PlayState.SONG.song.toLowerCase() != 'sussus-moogus')
-		{
-			gf.visible = false;
 			addToBackground(speaker);
-		}
 
 		if (PlayState.SONG.song.toLowerCase() == 'meltdown')
 		{
-			gf.visible = true;
-
-			var bfdead:FlxSprite = new FlxSprite(600, 525).loadGraphic(Paths.image('polus/bfdead', 'impostor'));
+			var bfdead:FlxSprite = new FlxSprite(600, 525).loadGraphic(Paths.image('week1/polus/bfdead', 'impostor'));
 			bfdead.setGraphicSize(Std.int(bfdead.width * 0.8));
 			bfdead.updateHitbox();
 			bfdead.antialiasing = true;
 			bfdead.active = false;
-			add(bfdead);
+			addToBackground(bfdead);
 		}
 
 		dadStart.set(0 + 300, -150 + 360);

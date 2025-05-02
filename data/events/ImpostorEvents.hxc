@@ -1,0 +1,27 @@
+class ImpostorEvents extends Events
+{
+	override function defineEvents() {
+		addEvent("addCamZoom", addCamZoom, "A more customizable camBop (which is basically the Psych thing)\n\nArgs:\n    Float: camGame Zoom\n    Float: camHUD Zoom");
+		addEvent("reactorBeep", reactorBeep, "beep beep changes the type");
+	}
+
+	function addCamZoom(tag:String)
+	{
+		var args = Events.getArgs(tag, ["0.015", "0.03"]);
+		if (playstate.camGame.zoom < 1.35)
+		{
+			var camZoom:Float = Std.parseFloat(args[0]);
+			var hudZoom:Float = Std.parseFloat(args[1]);
+
+			playstate.camGame.zoom += camZoom;
+			playstate.camHUD.zoom += hudZoom;
+		}
+	}
+
+	function reactorBeep(tag:String):Void{
+		var args = Events.getArgs(tag, ["0.4"]);
+		data.get("flashSprite").alpha = args[0];
+		playstate.camGame.zoom += 0.015;
+		playstate.camHUD.zoom += 0.03;
+	}
+}

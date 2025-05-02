@@ -20,12 +20,12 @@ class ImpostorHUD extends Script
 		['Shit', 0.4], //From 20% to 39%
 		['Bad', 0.5], //From 40% to 49%
 		['Bruh', 0.6], //From 50% to 59%
-		['Meh', 0.69], //From 60% to 68%
-		['Nice', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['FC', 0.69], //From 60% to 68%
+		['FC', 0.7], //69%
+		['GFC', 0.8], //From 70% to 79%
+		['GFC', 0.9], //From 80% to 89%
+		['SFC', 1], //From 90% to 99%
+		['SFC', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 
     var scoreTxt:FlxTextExt;
@@ -33,7 +33,7 @@ class ImpostorHUD extends Script
 
     function create()
     {
-        scoreTxt = new FlxTextExt(0, playstate.healthBar.y + 40, FlxG.width, "", 20);
+        scoreTxt = new FlxTextExt(0, playstate.healthBar.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr"), 20, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
@@ -81,8 +81,8 @@ class ImpostorHUD extends Script
             }
         }
 
-        playstate.playerStrums.memberAdded.add(adjustStrumPos);
-        playstate.enemyStrums.memberAdded.add(adjustStrumPos);
+        // playstate.playerStrums.memberAdded.add(adjustStrumPos);
+        // playstate.enemyStrums.memberAdded.add(adjustStrumPos);
     }
 
     function doScoreBop()

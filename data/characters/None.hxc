@@ -1,0 +1,14 @@
+class None extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		includeInGfList = true;
+
+		info.name = "none";
+		info.spritePath = "ui/healthIcons/none";
+        info.iconName = "none";
+		info.frameLoadType = setLoad(0, 0);
+	}
+}

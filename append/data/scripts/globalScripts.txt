@@ -1,2 +1,3 @@
+impostor.ImpostorGlobal
 impostor.ImpostorHUD
 impostor.ImpostorTweak

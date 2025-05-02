@@ -1,0 +1,25 @@
+package impostor;
+
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxMath;
+
+// global sprites for event stuff fuck you!!!
+class ImpostorGlobal extends Script
+{
+    function create()
+    {
+        var flashSprite = new FlxSprite(0, 0).makeGraphic(1920, 1080, 0xFFb30000);
+        flashSprite.cameras = [playstate.camOverlay];
+        flashSprite.alpha = 0;
+        addGeneric(flashSprite);
+
+        data.set("flashSprite", flashSprite);
+    }
+
+    function update(elapsed:Float)
+    {
+        var flashSprite = data.get("flashSprite");
+        flashSprite.alpha = FlxMath.lerp(flashSprite.alpha, 0, FlxMath.bound(elapsed * 9, 0, 1));
+    }
+}

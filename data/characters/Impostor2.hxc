@@ -11,13 +11,13 @@ class Impostor2 extends CharacterInfoBase
 		info.iconName = "impostor2";
 		info.healthColor = 0xffbb2d2d;
 		info.focusOffset.set(150, 130);
-		addExtraData("reposition", [0, 100]);
+		addExtraData("reposition", [0, 170]);
 
-		addByPrefix('idle', offset(80, -270), "impostor idle", 24, loop(false));
-		addByPrefix('singUP', offset(-16, -234), "impostor up", 24, loop(false));
-		addByPrefix('singDOWN', offset(40, -235), "impostor down", 24, loop(false));
-		addByPrefix('singLEFT', offset(248, -285), 'imposter left', 24, loop(false)); // whatt
-		addByPrefix('singRIGHT', offset(-73, -294), 'impostor right', 24, loop(false));
+		addByPrefix('idle', offset(79, -279), "impostor idle", 24, loop(false));
+		addByPrefix('singUP', offset(70, -255), "impostor up2", 24, loop(false));
+		addByPrefix('singDOWN', offset(70, -347), "impostor down", 24, loop(false));
+		addByPrefix('singLEFT', offset(162, -275), 'imposter left', 24, loop(false)); // whatt
+		addByPrefix('singRIGHT', offset(70, -283), 'impostor right', 24, loop(false));
 
 	}
 }

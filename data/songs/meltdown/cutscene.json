@@ -1,0 +1,8 @@
+{
+	"startCutscene": "null",
+	"endCutscene": {
+		"name": "VideoCutsceneEnd",
+		"args": ["meltdown_afterscene", false],
+		"storyOnly": true
+	}
+}

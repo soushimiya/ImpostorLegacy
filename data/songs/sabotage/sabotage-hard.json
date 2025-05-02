@@ -3,7 +3,7 @@
 		"speed": 2.8,
 		"stage": "Polus",
 		"player1": "Bf",
-		"player2": "Impostor",
+		"player2": "ImpostorSabotage",
 		"notes": [
 			{
 				"lengthInSteps": 16,
@@ -4311,7 +4311,7 @@
 				"mustHitSection": true
 			}
 		],
-		"gf": "Gf",
+		"gf": "None",
 		"bpm": 170,
 		"song": "Sabotage"
 	}
