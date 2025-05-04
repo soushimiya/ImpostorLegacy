@@ -1,3 +1,5 @@
+package impostor;
+
 class ImpostorEvents extends Events
 {
 	override function defineEvents() {

@@ -2,6 +2,7 @@ import flixel.FlxSprite;
 
 class Polus extends BaseStage
 {
+	var video:VideoHandler;
 	var speaker:FlxSprite;
 	var crowd2:FlxSprite;
 
@@ -10,6 +11,14 @@ class Polus extends BaseStage
 
 		name = "polus";
 		startingZoom = 0.75;
+
+		video = new VideoHandler(-320, -180);
+		video.antialiasing = true;
+		video.scale.set(0.67, 0.67);
+		video.cameras = [playstate.camOverlay];
+
+		video.visible = false;
+		playstate.add(video);
 
 		var sky:FlxSprite = new FlxSprite(-400, -400).loadGraphic(Paths.image('week1/polus/polus_custom_sky'));
 		sky.antialiasing = true;
@@ -89,6 +98,8 @@ class Polus extends BaseStage
 		crowd2.updateHitbox();
 		if (PlayState.SONG.song.toLowerCase() == 'meltdown')
 			addToForeground(crowd2);
+
+		addEvent("deadBodyReport", deadBodyReport);
 	}
 
 	public override function countdownBeat(curBeat:Int){
@@ -100,5 +111,12 @@ class Polus extends BaseStage
 		{
 			crowd2.animation.play('bop', true);
 		}
+	}
+
+	function deadBodyReport(tag:String)
+	{
+		playstate.camHUD.visible = false;
+		video.playMP4(Paths.video("meltdown"));
+		video.visible = true;
 	}
 }

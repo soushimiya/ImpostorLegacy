@@ -1,0 +1,22 @@
+package impostor;
+
+import title.TitleVideo;
+import scripts.ScriptableState;
+import flixel.FlxG;
+
+// init stuff by overriding TitleVideo
+class Init extends TitleVideo
+{
+	public function create(){
+		super.create();
+		
+		MainMenuState.menuMusicBpm = 102;
+	}
+
+	override function next()
+	{
+		titleState = null;
+		super.next();
+		FlxG.switchState(ScriptableState.init("impostor.LegacyIntroTitle"));
+	}
+}

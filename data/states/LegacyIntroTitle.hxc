@@ -1,0 +1,150 @@
+package impostor;
+
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.group.FlxTypedGroup;
+import title.TitleScreen;
+
+class LegacyIntroTitle extends ScriptedState
+{
+	var blackScreen:FlxSprite;
+	var credGroup:FlxTypedGroup;
+	var textGroup:FlxTypedGroup;
+	var logoSpr:FlxSprite;
+
+	var curWacky:Array<String> = [];
+
+	var wackyImage:FlxSprite;
+
+	var textOffset:Float = -140;
+
+	override public function create():Void
+	{
+		super.create();
+
+		useDefaultTransIn = false;
+		useDefaultTransOut = false;
+
+		curWacky = getIntroTextShit();
+
+		credGroup = new FlxTypedGroup();
+		add(credGroup);
+		textGroup = new FlxTypedGroup();
+
+		logoSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('menu/title/titlelogo'));
+		add(logoSpr);
+		logoSpr.visible = false;
+		logoSpr.setGraphicSize(Std.int(logoSpr.width * 0.55));
+		logoSpr.updateHitbox();
+		logoSpr.screenCenter(ScriptingUtil.axesX);
+		logoSpr.antialiasing = true;
+		logoSpr.y -= textOffset;
+
+		Conductor.songPosition = 0;
+	}
+
+	function getIntroTextShit():Array<Array<String>>
+	{
+		var fullText:String = Utils.getText(Paths.text("introText"));
+
+		var firstArray:Array<String> = fullText.split('\n');
+		var swagGoodArray:Array<Array<String>> = [];
+
+		for (i in firstArray)
+		{
+			swagGoodArray.push(i.split('--'));
+		}
+
+		return swagGoodArray[FlxG.random.int(0, swagGoodArray.length - 1)];
+	}
+
+	var transitioning:Bool = false;
+
+	override function update(elapsed:Float)
+	{
+		Conductor.songPosition += elapsed*1000;
+		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
+
+		if (FlxG.keys.justPressed.ENTER)
+		{
+			skipIntro();
+		}
+
+		super.update(elapsed);
+	}
+
+	function createCoolText(textArray:Array<String>)
+	{
+		for (i in 0...textArray.length)
+		{
+			var money:Alphabet = new Alphabet(0, 0, textArray[i], true, false);
+			money.screenCenter(ScriptingUtil.axesX);
+			money.y += (i * 60) + textOffset;
+			credGroup.add(money);
+			textGroup.add(money);
+		}
+	}
+
+	function addMoreText(text:String)
+	{
+		var coolText:Alphabet = new Alphabet(0, 0, text, true, false);
+		coolText.screenCenter(ScriptingUtil.axesX);
+		coolText.y += (textGroup.length * 60) + textOffset;
+		credGroup.add(coolText);
+		textGroup.add(coolText);
+	}
+
+	function deleteCoolText()
+	{
+		while (textGroup.members.length > 0)
+		{
+			credGroup.remove(textGroup.members[0], true);
+			textGroup.remove(textGroup.members[0], true);
+		}
+	}
+
+	
+
+	override function beatHit()
+	{
+		super.beatHit();
+
+		switch (curBeat)
+		{
+			case 1:
+				createCoolText(['Impostorm']);
+			case 3:
+				addMoreText('presents');
+				addMoreText('');
+			case 4:
+				deleteCoolText();
+			case 5:
+				createCoolText(['This is a mod to']);
+			case 7:
+				addMoreText('This game right below lol');
+				logoSpr.visible = true;
+			case 8:
+				deleteCoolText();
+				logoSpr.visible = false;
+			case 9:
+				createCoolText([curWacky[0]]);
+			case 11:
+				addMoreText(curWacky[1]);
+			case 12:
+				deleteCoolText();
+			case 13:
+				addMoreText("FNF'");
+			case 14:
+				addMoreText('Vs Impostor');
+			case 15:
+				addMoreText('for Fps Plus');
+			case 16:
+				skipIntro();
+		}
+	}
+
+	function skipIntro():Void
+	{
+		switchState(new TitleScreen());
+	}
+}

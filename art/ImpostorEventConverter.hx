@@ -56,8 +56,14 @@ class ImpostorEventConverter
                         if (eventValue2 == "2" || eventValue2 == "girlfriend") char = "gf";
 
                         pushEvent("playAnim", [char, eventValue1, true], eventTime);
+
+                    // sussy events
                     case "Reactor Beep":
                         pushEvent("reactorBeep", [eventValue1], eventTime);
+                    case "Meltdown Video":
+                        pushEvent("deadBodyReport", [], eventTime);
+
+
                     default:
                         // Don't you think it's ridiculous to give multiple notices????????
                         trace("Found undefined event " + eventName + "! ignoring....");
@@ -72,6 +78,9 @@ class ImpostorEventConverter
 
     static function pushEvent(name:String, args:Array<Dynamic>, time:Float)
     {
+        if (args.join(";").length < -1)
+            args = [];
+        
         if (args.length > 0)
             name += ";";
 
