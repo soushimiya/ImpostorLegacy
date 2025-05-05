@@ -31,7 +31,7 @@ class LegacyIntroTitle extends ScriptedState
 		add(credGroup);
 		textGroup = new FlxTypedGroup();
 
-		logoSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('menu/title/titlelogo'));
+		logoSpr = new FlxSprite(0, FlxG.height * 0.5).loadGraphic(Paths.image('menu/title/titlelogo'));
 		add(logoSpr);
 		logoSpr.visible = false;
 		logoSpr.setGraphicSize(Std.int(logoSpr.width * 0.55));
@@ -137,7 +137,7 @@ class LegacyIntroTitle extends ScriptedState
 			case 14:
 				addMoreText('Vs Impostor');
 			case 15:
-				addMoreText('for Fps Plus');
+				addMoreText('Estate');
 			case 16:
 				skipIntro();
 		}
