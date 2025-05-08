@@ -18,6 +18,11 @@
 			"song": "Meltdown",
 			"icon": "dad",
 			"categories": ["ALL", "Polus"]
+		},
+		{
+			"song": "Defeat",
+			"icon": "dad",
+			"categories": ["ALL", "Polus"]
 		}
 	]
 }

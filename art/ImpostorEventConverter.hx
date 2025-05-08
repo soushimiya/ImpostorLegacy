@@ -1,4 +1,4 @@
-package;
+package art;
 import sys.FileSystem;
 import sys.io.File;
 import haxe.Json;
@@ -41,12 +41,24 @@ class ImpostorEventConverter
                 switch(eventName)
                 {
                     case "Add Camera Zoom":
-                        if (eventValue1 == "") eventValue1 = "0.015";
-                        if (eventValue2 == "") eventValue2 = "0.03";
-
-                        pushEvent("addCamZoom", [eventValue1, eventValue2], eventTime);
+                        pushEvent("camBop", [], eventTime);
                     case "Change Character":
-                        var char = Std.parseInt(eventValue1);
+                        var char:Int = Std.parseInt(eventValue1);
+                        if (Math.isNaN(char))
+                        {
+                            switch (eventValue2.toLowerCase())
+				            {
+					            case 'mom' | 'opponent2':
+						            char = 3;
+					            case 'gf' | 'girlfriend':
+					            	char = 2;
+					            case 'dad' | 'opponent':
+					    	        char = 1;
+                                default:
+                                    char = 0;
+                            }
+                        }
+                        
                         var actualChar = ["bf", "dad", "gf"][char];
                         pushEvent("changeCharacter", [actualChar, eventValue2], eventTime);
                     case "Play Animation":
@@ -58,11 +70,49 @@ class ImpostorEventConverter
                         pushEvent("playAnim", [char, eventValue1, true], eventTime);
 
                     // sussy events
+                    case "flash":
+                        var type:Int = Std.parseInt(eventValue1);
+                        if (Math.isNaN(type))
+                            type = 0;
+                        // todo: implement identity crisis shits
+                        switch (type)
+					    {
+						    case 0 | 1:
+                                pushEvent("flash", ["0.35"], eventTime);
+						    case 2:
+						    	pushEvent("flash", ["0.55"], eventTime);
+						    	// darkMono.visible = true;
+						    case 3:
+						    	pushEvent("flash", ["0.55"], eventTime);
+						    	// darkMono.visible = false;
+						    	// saxguy.visible = false;
+						    }
+                        
                     case "Reactor Beep":
                         pushEvent("reactorBeep", [eventValue1], eventTime);
+
+                    
                     case "Meltdown Video":
                         pushEvent("deadBodyReport", [], eventTime);
 
+                    case "Defeat Retro":
+                        if (eventValue1 == "0")
+                        {
+                            pushEvent("turnsOld", [], eventTime);
+                        }else{
+                            pushEvent("turnsNew", [], eventTime);
+                            pushEvent("changeCharacter", ["bf", "BfDefeatScared"], eventTime, 1);
+                            pushEvent("changeCharacter", ["dad", "Black"], eventTime, 2);
+                        }
+                    case "Defeat Fade":
+                        if (eventValue1 == "0")
+                            pushEvent("fadeInBodies", [], eventTime);
+                        if (eventValue1 == "1")
+                            pushEvent("fadeOutBodies", [], eventTime);
+                    
+                    // ignoring these shit cuz yes
+                    case "DefeatDark":
+                        // does nothin
 
                     default:
                         // Don't you think it's ridiculous to give multiple notices????????
@@ -76,7 +126,7 @@ class ImpostorEventConverter
         File.saveContent(dataPath.split(".json")[0] + "-converted.json", Json.stringify({events: {events: fpsPlusEvents}}, "\t"));
     }
 
-    static function pushEvent(name:String, args:Array<Dynamic>, time:Float)
+    static function pushEvent(name:String, args:Array<Dynamic>, time:Float, id:Int = 0)
     {
         if (args.join(";").length < -1)
             args = [];
@@ -88,7 +138,7 @@ class ImpostorEventConverter
             [
                 curSection,
                 time,
-                0, // fuck
+                id,
                 name + args.join(";")
             ]
         );

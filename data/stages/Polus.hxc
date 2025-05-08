@@ -12,6 +12,7 @@ class Polus extends BaseStage
 		name = "polus";
 		startingZoom = 0.75;
 
+		/*
 		video = new VideoHandler(-320, -180);
 		video.antialiasing = true;
 		video.scale.set(0.67, 0.67);
@@ -19,6 +20,7 @@ class Polus extends BaseStage
 
 		video.visible = false;
 		playstate.add(video);
+		*/
 
 		var sky:FlxSprite = new FlxSprite(-400, -400).loadGraphic(Paths.image('week1/polus/polus_custom_sky'));
 		sky.antialiasing = true;
@@ -99,7 +101,8 @@ class Polus extends BaseStage
 		if (PlayState.SONG.song.toLowerCase() == 'meltdown')
 			addToForeground(crowd2);
 
-		addEvent("deadBodyReport", deadBodyReport);
+		// video shit broken some reason??? reowrk later
+		// addEvent("deadBodyReport", deadBodyReport);
 	}
 
 	public override function countdownBeat(curBeat:Int){

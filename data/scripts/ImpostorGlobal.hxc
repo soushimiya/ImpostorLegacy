@@ -1,6 +1,5 @@
 package impostor;
 
-import SaveManager;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
@@ -16,52 +15,6 @@ class ImpostorGlobal extends Script
         addGeneric(flashSprite);
 
         data.set("flashSprite", flashSprite);
-
-        // save stuff
-        data.set("bindImpostor", function()
-        {
-            FlxG.save.close();
-            FlxG.save.bind("impostor", "Rozebud/FunkinFPSPlus");
-
-            /*if (FlxG.save.data.forceUnlockedSongs == null)
-                FlxG.save.data.forceUnlockedSongs = [];*/
-            if (FlxG.save.data.beans == null)
-                FlxG.save.data.beans = 0;
-        });
-        data.set("flushImpostor", function()
-        {
-            SaveManager.flush();
-            FlxG.save.close();
-            SaveManager.previousSave();
-        });
-
-        data.set("getBeans", function()
-        {
-            data["bindImpostor"]();
-            var value = FlxG.save.beans;
-            data["flushImpostor"]();
-            return value;
-        });
-        data.set("setBeans", function(value)
-        {
-            data["bindImpostor"]();
-            FlxG.save.beans = value;
-            data["flushImpostor"]();
-        });
-
-        data.set("getForceUnlockedSongs", function()
-        {
-            data["bindImpostor"]();
-            var value = FlxG.save.forceUnlockedSongs;
-            data["flushImpostor"]();
-            return value;
-        });
-        data.set("setForceUnlockedSongs", function(value)
-        {
-            data["bindImpostor"]();
-            FlxG.save.forceUnlockedSongs = value;
-            data["flushImpostor"]();
-        });
     }
 
     function update(elapsed:Float)

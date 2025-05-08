@@ -10,9 +10,12 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxTimer;
 import extensions.flixel.FlxTextExt;
 import scripts.ScriptableState;
+import flixel.math.FlxPoint;
+import transition.data.InstantTransition;
 
 import story.StoryMenuState;
 import config.ConfigMenu;
+import freeplay.FreeplayState;
 
 class MainMenuState extends ScriptedState
 {
@@ -233,7 +236,8 @@ class MainMenuState extends ScriptedState
 			case 'Story Mode':
 				switchState(new StoryMenuState());
 			case 'Freeplay':
-				switchState(ScriptableState.init("impostor.ImpostorFreeplay"));
+				// broken???
+				switchState(new FreeplayState(1, FlxPoint.get(0, 0)));
 			case 'Shop':
 				//switchState(new ShopState());
 			case 'Options':

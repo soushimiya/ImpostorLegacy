@@ -28,14 +28,44 @@ class ImpostorHUD extends Script
 		['SFC', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 
+    var timeTxt:FlxTextExt;
+    var timeBarBG:FlxSprite;
+    var timeBar:FlxBar;
+
     var scoreTxt:FlxTextExt;
     var scoreTxtTween:FlxTween;
 
     function create()
     {
+        timeTxt = new FlxTextExt((FlxG.width / 2) - 585 + 42, 23, 400, "", 32);
+		timeTxt.setFormat(Paths.font("vcr"), 14, 0xFFFFFFFF, "left", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		timeTxt.alpha = 0;
+		timeTxt.borderSize = 1;
+        timeTxt.cameras = [playstate.camHUD];
+        if (Config.downscroll)
+            timeTxt.y = FlxG.height - 45;
+
+        timeBarBG = new FlxSprite().loadGraphic(Paths.image("ui/timeBar"));
+		timeBarBG.x = timeTxt.x;
+		timeBarBG.y = timeTxt.y + (timeTxt.height / 4);
+		timeBarBG.antialiasing = false;
+        timeBarBG.cameras = [playstate.camHUD];
+        addGeneric(timeBarBG);
+
+        timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, 0, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), fuckflxBar,
+        'songPercent', 0, 1);
+        timeBar.createFilledBar(0xFF2e412e, 0xFF44d844);
+        timeBar.numDivisions = 800; //How much lag this causes?? Should i tone it down to idk, 400 or 200?
+        timeBar.alpha = 0;
+        timeBar.cameras = [playstate.camHUD];
+        timeTxt.x += 10;
+		timeTxt.y += 4;
+
+        addGeneric(timeBar);
+		addGeneric(timeTxt);
+
         scoreTxt = new FlxTextExt(0, playstate.healthBar.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr"), 20, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
-		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
         scoreTxt.cameras = [playstate.camHUD];
 
@@ -81,8 +111,8 @@ class ImpostorHUD extends Script
             }
         }
 
-        // playstate.playerStrums.memberAdded.add(adjustStrumPos);
-        // playstate.enemyStrums.memberAdded.add(adjustStrumPos);
+        playstate.playerStrums.memberAdded.add(adjustStrumPos);
+        playstate.enemyStrums.memberAdded.add(adjustStrumPos);
     }
 
     function doScoreBop()
@@ -123,6 +153,13 @@ class ImpostorHUD extends Script
 
         var mult:Float = FlxMath.lerp(playstate.iconP2.defualtIconScale, playstate.iconP2.iconScale, Math.exp(-elapsed * 9 * playstate.songPlaybackSpeed));
         playstate.iconP2.iconScale = mult;
+
+        // song timing stuff
+        if (!FlxG.sound.music.playing)
+            return;
+        var curTime:Float = Conductor.songPosition;
+		if(curTime < 0) curTime = 0;
+		fuckflxBar.songPercent = (curTime / FlxG.sound.music.length);
     }
 
     function beat(curBeat:Int)
@@ -135,5 +172,14 @@ class ImpostorHUD extends Script
 
         playstate.iconP1.iconScale = playstate.iconP1.defualtIconScale * 1.2;
         playstate.iconP2.iconScale = playstate.iconP2.defualtIconScale * 1.2;
+    }
+
+    function songStart()
+    {
+        timeTxt.text = PlayState.SONG.song.toUpperCase();
+
+        FlxTween.tween(timeBarBG, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+        FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
     }
 }

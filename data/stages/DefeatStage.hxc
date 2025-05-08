@@ -1,0 +1,121 @@
+import flixel.FlxSprite;
+import flixel.FlxG;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+
+class DefeatStage extends BaseStage
+{
+	var defeatthing:FlxSprite;
+	var bodies2:FlxSprite;
+	var bodies:FlxSprite;
+	var bodiesfront:FlxSprite;
+
+	var lightoverlay:FlxSprite;
+	var mainoverlayDK:FlxSprite;
+
+	public function new(){
+		super();
+
+		name = "defeat";
+		startingZoom = 0.6;
+
+		defeatthing = new FlxSprite(-400, -150);
+		defeatthing.frames = Paths.getSparrowAtlas('week3/defeat/defeat');
+		defeatthing.animation.addByPrefix('bop', 'defeat', 24, false);
+		defeatthing.animation.play('bop');
+		defeatthing.setGraphicSize(Std.int(defeatthing.width * 1.3));
+		defeatthing.antialiasing = true;
+		defeatthing.scrollFactor.set(0.8, 0.8);
+		defeatthing.active = true;
+		addToBackground(defeatthing);
+
+		bodies2 = new FlxSprite(-500, 150).loadGraphic(Paths.image('week3/defeat/lol thing'));
+		bodies2.antialiasing = true;
+		bodies2.setGraphicSize(Std.int(bodies2.width * 1.3));
+		bodies2.scrollFactor.set(0.9, 0.9);
+		bodies2.active = false;
+		bodies2.alpha = 0;
+		addToBackground(bodies2);
+
+		bodies = new FlxSprite(-2760, 0).loadGraphic(Paths.image('week3/defeat/deadBG'));
+		bodies.setGraphicSize(Std.int(bodies.width * 0.4));
+		bodies.antialiasing = true;
+		bodies.scrollFactor.set(0.9, 0.9);
+		bodies.active = false;
+		bodies.alpha = 0;
+		addToBackground(bodies);
+
+		defeatblack = new FlxSprite().makeGraphic(FlxG.width * 4, FlxG.height + 700, 0xFF000000);
+		defeatblack.alpha = 0;
+		ScriptingUtil.screenCenter(defeatblack);
+		addToBackground(defeatblack);
+
+		
+		mainoverlayDK = new FlxSprite(250, 125).loadGraphic(Paths.image('week3/defeat/defeatfnf'));
+		mainoverlayDK.antialiasing = true;
+		mainoverlayDK.scrollFactor.set(1, 1);
+		mainoverlayDK.active = false;
+		mainoverlayDK.setGraphicSize(Std.int(mainoverlayDK.width * 2));
+		mainoverlayDK.alpha = 0;
+		addToBackground(mainoverlayDK);
+
+		bodiesfront = new FlxSprite(-2830, 0).loadGraphic(Paths.image('week3/defeat/deadFG'));
+		bodiesfront.setGraphicSize(Std.int(bodiesfront.width * 0.4));
+		bodiesfront.antialiasing = true;
+		bodiesfront.scrollFactor.set(0.5, 1);
+		bodiesfront.active = false;
+		bodiesfront.alpha = 0;
+		addToForeground(bodiesfront);
+
+		lightoverlay = new FlxSprite(-550, -100).loadGraphic(Paths.image('week3/defeat/iluminao omaga'));
+		lightoverlay.antialiasing = true;
+		lightoverlay.scrollFactor.set(1, 1);
+		lightoverlay.active = false;
+		lightoverlay.blend = 0;
+		addToForeground(lightoverlay);
+
+		addEvent("fadeInBodies", fadeInBodies);
+		addEvent("fadeOutBodies", fadeOutBodies);
+
+		addEvent("turnsOld", turnsOld);
+		addEvent("turnsNew", turnsNew);
+
+		gf.visible = false;
+		addExtraData("forceCenteredNotes", true);
+
+		bfStart.set(1000 + 250, 100 + 400 + 350);
+		dadStart.set(210 + 250, 100 + 400 + 350);
+	}
+
+	function beat(curBeat:Int)
+	{
+		if (curBeat % 4 == 0)
+			defeatthing.animation.play("bop");
+	}
+
+	function fadeInBodies(tag:String){
+		FlxTween.tween(bodies, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut});
+		FlxTween.tween(bodies2, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut});
+		FlxTween.tween(bodiesfront, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut});
+	}
+	function fadeOutBodies(tag:String){
+		FlxTween.tween(bodies, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut});
+		FlxTween.tween(bodies2, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut});
+		FlxTween.tween(bodiesfront, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut});
+	}
+
+	function turnsOld(tag:String){
+		playstate.defaultCamZoom = 0.75;
+		bodiesfront.alpha = 0;
+		lightoverlay.alpha = 0;
+		defeatblack.alpha = 1;
+		mainoverlayDK.alpha = 1;
+	}
+	function turnsNew(tag:String){
+		playstate.defaultCamZoom = 0.6;
+		bodiesfront.alpha = 1;
+		lightoverlay.alpha = 1;
+		defeatblack.alpha = 0;
+		mainoverlayDK.alpha = 0;
+	}
+}
